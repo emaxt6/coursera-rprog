@@ -1,6 +1,7 @@
 ## Functions for caching matrix operations
 ## like the inverse in order to optimize repeated access patterns
 
+
 ## create an "object" containing a matrix and its cached inverse
 
 makeCacheMatrix <- function(matrix = matrix()) {
