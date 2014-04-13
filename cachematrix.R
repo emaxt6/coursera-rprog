@@ -1,16 +1,30 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Functions for caching matrix operations
+## like the inverse in order to optimize repeated access patterns
 
-## Write a short comment describing this function
+## create an "object" containing a matrix and its cached inverse
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(matrix = matrix()) {
+   inverse <- NULL
+   set <- function(mat) {
+        matrix <<- mat
+        inverse <<- NULL
+   }
+   get <- function() matrix
+   setinverse <- function(inv) inverse <<- inv
+   getinverse <- function() inverse
+   list(set = set, get = get, setinverse = setinverse, getinverse = getinverse)
 }
 
 
-## Write a short comment describing this function
+## Get the - possibly cached - matrix inverse
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-        
+        inv <- x$getinverse()
+        if(is.null(inv)) {
+                message("computing and caching inverse")
+                mat <- x$get()
+                inv <- solve(mat)
+                x$setinverse(inv)
+        }
+        inv
 }
